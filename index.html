@@ -3,16 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mikro Voucher</title>
+    <title>Mikro Voucher | Submit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; padding: 20px; background-color: #f4f4f9; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input[type="text"], input[type="file"] { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        small { color: #666; font-style: italic; }
-        button { width: 100%; padding: 10px; background-color: #5865F2; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        button:hover { background-color: #4752c4; }
+        /* --- RESET & BASICS --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            color: #e2e8f0;
+            overflow-x: hidden;
+            background-color: #020617; /* Very dark blue base */
+        }
+
+        /* --- AURORA BACKGROUND EFFECT --- */
+        /* Creating the glowing blobs behind the glass card */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+
+        body::before {
+            background: rgba(56, 189, 248, 0.2); /* Cyan/Sky glow */
+            top: 10%;
+            left: 20%;
+        }
+
+        body::after {
+            background: rgba(99, 102, 241, 0.25); /* Indigo/Purple glow */
+            bottom: 10%;
+            right: 20%;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 50px); }
+        }
+
+        /* --- GLASSMORPHISM CARD --- */
+        .card { 
+            background: rgba(15, 23, 42, 0.6); /* Semi-transparent dark slate */
+            backdrop-filter: blur(16px);       /* The "Frost" effect */
+            -webkit-backdrop-filter: blur(16px);
+            padding: 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+            width: 100%; 
+            max-width: 420px; 
+            position: relative;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            font-weight: 700;
+            font-size: 24px;
+            text-align: center;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        /* --- INPUTS --- */
+        .input-group { margin-bottom: 20px; }
+        
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-size: 14px; 
+            color: #94a3b8; 
+            font-weight: 600;
+        }
+
+        input[type="text"] { 
+            width: 100%; 
+            padding: 12px 16px; 
+            background: rgba(2, 6, 23, 0.5); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px; 
+            color: white;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+            background: rgba(2, 6, 23, 0.8);
+        }
+
+        input[type="text"]::placeholder {
+            color: #475569;
+        }
+
+        small { 
+            display: block; 
+            margin-top: 6px;
+            color: #64748b; 
+            font-size: 12px; 
+        }
+
+        /* --- FILE INPUT STYLING --- */
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            background: rgba(2, 6, 23, 0.3);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        input[type="file"]:hover {
+            border-color: #38bdf8;
+        }
+
+        /* Customizing the "Choose File" button part */
+        input[type="file"]::file-selector-button {
+            margin-right: 15px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background: rgba(56, 189, 248, 0.2);
+        }
+
+        /* --- BUTTON --- */
+        button { 
+            width: 100%; 
+            padding: 14px; 
+            margin-top: 10px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6); 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+        }
+
+        button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -21,46 +186,50 @@
     <h2>Submit Your Mapart</h2>
     
     <div class="input-group">
-        <label for="mapartName">Name of the Mapart</label>
-        <input type="text" id="mapartName" placeholder="Enter name...">
+        <label for="mapartName">Mapart Name</label>
+        <input type="text" id="mapartName" placeholder="Enter the artwork name...">
     </div>
 
     <div class="input-group">
-        <label for="coords">Coordinates of Voucher</label>
-        <input type="text" id="coords" placeholder="e.g. X: 100, Y: 64, Z: -200">
-        <small>Hint: Place your Voucher book in a chest or barrel</small>
+        <label for="coords">Coordinates</label>
+        <input type="text" id="coords" placeholder="X: 100, Y: 64, Z: -200">
+        <small>Tip: Place your Voucher book in a chest or barrel first.</small>
     </div>
 
     <div class="input-group">
-        <label for="imageInput">Upload Screenshot</label>
+        <label for="imageInput">Screenshot Proof</label>
         <input type="file" id="imageInput" accept="image/*">
     </div>
 
-    <button onclick="sendSubmission()">Send to Discord</button>
+    <button id="submitBtn" onclick="sendSubmission()">Submit</button>
 </div>
 
 <script>
 async function sendSubmission() {
-    // 1. REPLACE THIS WITH YOUR ACTUAL WEBHOOK URL
+    // Webhook URL (Test code as noted)
     const webhookUrl = 'https://discord.com/api/webhooks/1460499455219339389/OvFnvMeqWiApBuumLWXCZwbM6btygRwjUo3Cs-Y5vw3psG3oLbpd9GyBz9ikdWSf4Jil';
 
     const mapartName = document.getElementById('mapartName').value;
     const coords = document.getElementById('coords').value;
     const fileInput = document.getElementById('imageInput');
+    const btn = document.getElementById('submitBtn');
 
     if (!mapartName || !coords || fileInput.files.length === 0) {
         alert("Please fill in all fields and select an image.");
         return;
     }
 
-    // Prepare the Discord data
+    // UX: Disable button while sending
+    btn.disabled = true;
+    btn.innerText = "Sending...";
+
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
     
-    // Formatting the message for Discord
+    // Formatting the message for Discord (using a slight codeblock style for coords makes it pop)
     const messageContent = `**New Mapart Submission**\n` +
                            `**Name:** ${mapartName}\n` +
-                           `**Coordinates:** ${coords}`;
+                           `**Coordinates:** \`${coords}\``;
     
     formData.append('content', messageContent);
 
@@ -72,16 +241,20 @@ async function sendSubmission() {
 
         if (response.ok) {
             alert("Submission successful!");
-            // Optional: Clear form
+            // Clear form
             document.getElementById('mapartName').value = '';
             document.getElementById('coords').value = '';
             fileInput.value = '';
         } else {
-            alert("Error sending to Discord. Check your Webhook URL.");
+            alert("Error sending to Discord. Check console for details.");
         }
     } catch (error) {
         console.error("Error:", error);
         alert("Failed to connect to Discord.");
+    } finally {
+        // Restore button state
+        btn.disabled = false;
+        btn.innerText = "Submit";
     }
 }
 </script>
