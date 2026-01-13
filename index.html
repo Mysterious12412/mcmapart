@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mikro Voucher | Submit</title>
+    <title>Mikro Voucher</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- RESET & BASICS --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body { 
@@ -17,11 +16,9 @@
             min-height: 100vh; 
             color: #e2e8f0;
             overflow-x: hidden;
-            background-color: #020617; /* Very dark blue base */
+            background-color: #020617;
         }
 
-        /* --- AURORA BACKGROUND EFFECT --- */
-        /* Creating the glowing blobs behind the glass card */
         body::before, body::after {
             content: '';
             position: absolute;
@@ -34,13 +31,13 @@
         }
 
         body::before {
-            background: rgba(56, 189, 248, 0.2); /* Cyan/Sky glow */
+            background: rgba(56, 189, 248, 0.2);
             top: 10%;
             left: 20%;
         }
 
         body::after {
-            background: rgba(99, 102, 241, 0.25); /* Indigo/Purple glow */
+            background: rgba(99, 102, 241, 0.25);
             bottom: 10%;
             right: 20%;
             animation-delay: -5s;
@@ -51,15 +48,14 @@
             100% { transform: translate(30px, 50px); }
         }
 
-        /* --- GLASSMORPHISM CARD --- */
-        .card { 
-            background: rgba(15, 23, 42, 0.6); /* Semi-transparent dark slate */
-            backdrop-filter: blur(16px);       /* The "Frost" effect */
+        .container { 
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             padding: 40px; 
             border-radius: 20px; 
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+            border: 1px solid rgba(255, 255, 255, 0.1);
             width: 100%; 
             max-width: 420px; 
             position: relative;
@@ -76,8 +72,7 @@
             letter-spacing: -0.5px;
         }
 
-        /* --- INPUTS --- */
-        .input-group { margin-bottom: 20px; }
+        .field { margin-bottom: 20px; }
         
         label { 
             display: block; 
@@ -116,7 +111,6 @@
             font-size: 12px; 
         }
 
-        /* --- FILE INPUT STYLING --- */
         input[type="file"] {
             width: 100%;
             padding: 10px;
@@ -132,7 +126,6 @@
             border-color: #38bdf8;
         }
 
-        /* Customizing the "Choose File" button part */
         input[type="file"]::file-selector-button {
             margin-right: 15px;
             padding: 8px 12px;
@@ -149,7 +142,6 @@
             background: rgba(56, 189, 248, 0.2);
         }
 
-        /* --- BUTTON --- */
         button { 
             width: 100%; 
             padding: 14px; 
@@ -182,77 +174,72 @@
 </head>
 <body>
 
-<div class="card">
+<div class="container">
     <h2>Submit Your Mapart</h2>
     
-    <div class="input-group">
-        <label for="mapartName">Mapart Name</label>
-        <input type="text" id="mapartName" placeholder="Enter the artwork name...">
+    <div class="field">
+        <label for="mapName">Mapart Name</label>
+        <input type="text" id="mapName" placeholder="Enter the artwork name...">
     </div>
 
-    <div class="input-group">
-        <label for="coords">Coordinates</label>
-        <input type="text" id="coords" placeholder="X: 100, Y: 64, Z: -200">
+    <div class="field">
+        <label for="location">Coordinates</label>
+        <input type="text" id="location" placeholder="X: 100, Y: 64, Z: -200">
         <small>Tip: Place your Voucher book in a chest or barrel first.</small>
     </div>
 
-    <div class="input-group">
-        <label for="imageInput">Screenshot Proof</label>
-        <input type="file" id="imageInput" accept="image/*">
+    <div class="field">
+        <label for="proof">Your Map Art Image</label>
+        <input type="file" id="proof" accept="image/*">
     </div>
 
-    <button id="submitBtn" onclick="sendSubmission()">Submit</button>
+    <button id="submit" onclick="send()">Submit</button>
 </div>
 
 <script>
-async function sendSubmission() {
-    // Webhook URL (Test code as noted)
-    const webhookUrl = 'https://discord.com/api/webhooks/1460499455219339389/OvFnvMeqWiApBuumLWXCZwbM6btygRwjUo3Cs-Y5vw3psG3oLbpd9GyBz9ikdWSf4Jil';
+async function send() {
+    const url = 'https://discord.com/api/webhooks/1460499455219339389/OvFnvMeqWiApBuumLWXCZwbM6btygRwjUo3Cs-Y5vw3psG3oLbpd9GyBz9ikdWSf4Jil';
 
-    const mapartName = document.getElementById('mapartName').value;
-    const coords = document.getElementById('coords').value;
-    const fileInput = document.getElementById('imageInput');
-    const btn = document.getElementById('submitBtn');
+    const mapName = document.getElementById('mapName').value;
+    const location = document.getElementById('location').value;
+    const proof = document.getElementById('proof');
+    const btn = document.getElementById('submit');
 
-    if (!mapartName || !coords || fileInput.files.length === 0) {
+    if (!mapName || !location || proof.files.length === 0) {
         alert("Please fill in all fields and select an image.");
         return;
     }
 
-    // UX: Disable button while sending
     btn.disabled = true;
     btn.innerText = "Sending...";
 
-    const formData = new FormData();
-    formData.append('file', fileInput.files[0]);
+    const data = new FormData();
+    data.append('file', proof.files[0]);
     
-    // Formatting the message for Discord (using a slight codeblock style for coords makes it pop)
-    const messageContent = `**New Mapart Submission**\n` +
-                           `**Name:** ${mapartName}\n` +
-                           `**Coordinates:** \`${coords}\``;
+    const content = `**New Mapart Submission**\n` +
+                    `**Name:** ${mapName}\n` +
+                    `**Coordinates:** \`${location}\``;
     
-    formData.append('content', messageContent);
+    data.append('content', content);
 
     try {
-        const response = await fetch(webhookUrl, {
+        const res = await fetch(url, {
             method: 'POST',
-            body: formData
+            body: data
         });
 
-        if (response.ok) {
+        if (res.ok) {
             alert("Submission successful!");
-            // Clear form
-            document.getElementById('mapartName').value = '';
-            document.getElementById('coords').value = '';
-            fileInput.value = '';
+            document.getElementById('mapName').value = '';
+            document.getElementById('location').value = '';
+            proof.value = '';
         } else {
-            alert("Error sending to Discord. Check console for details.");
+            alert("Error sending to Discord.");
         }
-    } catch (error) {
-        console.error("Error:", error);
-        alert("Failed to connect to Discord.");
+    } catch (e) {
+        console.error(e);
+        alert("Failed to connect.");
     } finally {
-        // Restore button state
         btn.disabled = false;
         btn.innerText = "Submit";
     }
