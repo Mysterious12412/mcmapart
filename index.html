@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mikro Voucher</title>
-    <link rel="icon" href="https://static.wikia.nocookie.net/umamusume/images/c/c3/Special_Week_Chibi1-2.png" type="image/png">
+    <link rel="icon" href="/Media/Logo.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -196,8 +196,55 @@
 
     <button id="submit" onclick="send()">Submit</button>
 </div>
+<script>
+async function send() {
+    const url = 'https://discord.com/api/webhooks/1460499455219339389/OvFnvMeqWiApBuumLWXCZwbM6btygRwjUo3Cs-Y5vw3psG3oLbpd9GyBz9ikdWSf4Jil';
 
+    const mapName = document.getElementById('mapName').value;
+    const location = document.getElementById('location').value;
+    const proof = document.getElementById('proof');
+    const btn = document.getElementById('submit');
+
+    if (!mapName || !location || proof.files.length === 0) {
+        alert("Please fill in all fields and select an image.");
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerText = "Sending...";
+
+    const data = new FormData();
+    data.append('file', proof.files[0]);
+    
+    const content = `**New Mapart Submission**\n` +
+                    `**Name:** ${mapName}\n` +
+                    `**Coordinates:** \`${location}\``;
+    
+    data.append('content', content);
+
+    try {
+        const res = await fetch(url, {
+            method: 'POST',
+            body: data
+        });
+
+        if (res.ok) {
+            alert("Submission successful!");
+            document.getElementById('mapName').value = '';
+            document.getElementById('location').value = '';
+            proof.value = '';
+        } else {
+            alert("Error sending to Discord.");
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Failed to connect.");
+    } finally {
+        btn.disabled = false;
+        btn.innerText = "Submit";
+    }
+}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
-<script src="/function.js"></script>
 </body>
 </html>
