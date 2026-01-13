@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mikro Voucher</title>
-    <link rel="icon" href="/Media/Logo.png" type="image/png">
+    <link rel="icon" href="https://mysterious12412.github.io/mcmapart/Media/Logo.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -198,7 +198,7 @@
 </div>
 <script>
 async function send() {
-    const url = 'https://discord.com/api/webhooks/1460499455219339389/OvFnvMeqWiApBuumLWXCZwbM6btygRwjUo3Cs-Y5vw3psG3oLbpd9GyBz9ikdWSf4Jil';
+    const url = 'https://discord.com/api/webhooks/1460573964945461346/t-5OyATM27iUlKiktLgPUbc3t-DH_mAz5XIsjlI79BMEkHTl3BsyugGLzZEz-RHgvbRl';
 
     const mapName = document.getElementById('mapName').value;
     const location = document.getElementById('location').value;
@@ -216,7 +216,7 @@ async function send() {
     const data = new FormData();
     data.append('file', proof.files[0]);
     
-    const content = `**New Mapart Submission**\n` +
+    const content = `@everyone **New Mapart Submission**\n` +
                     `**Name:** ${mapName}\n` +
                     `**Coordinates:** \`${location}\``;
     
@@ -229,12 +229,12 @@ async function send() {
         });
 
         if (res.ok) {
-            alert("Submission successful!");
+            alert("Successful. Please check your chest in the next 24 hours!");
             document.getElementById('mapName').value = '';
             document.getElementById('location').value = '';
             proof.value = '';
         } else {
-            alert("Error sending to Discord.");
+            alert("Error.");
         }
     } catch (e) {
         console.error(e);
